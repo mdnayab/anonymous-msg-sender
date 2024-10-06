@@ -1,0 +1,31 @@
+1.  Install Mongoose
+    First we create model (User.ts), in which:
+    a. Message model:
+    We firstly define TYPE of message using interface which is extended by document (L:3).
+    Then, we define models of message and also define its type because we use TypeScript(L:8).
+
+    b.User model:
+    Same with user model, firstly define TYPE of message using interface which is extended by document (L:20).
+    Then, we define models of user and also define its type because we use TypeScript(L:31).
+
+    Lastly, export the user model.
+
+2.  Install Zod (Folder: schema)
+    We make schemas (signUpSchema.ts, signInSchema.ts, ...) for adding the validations using "Zod" library.
+
+3. DB connection (Folder: lib)
+    1stly we define the TYPE of connection (L:3).
+    Then, we check the db is already connected or not? (L:10).
+    Then, we try to connect the db (L:15).
+
+4. Email verification
+    Install resend, react-email
+    First, we import Resend in separate file (resend.ts) using secret api key and export it by storing in resend "varaible".
+    Then, we need to make a template of sending email (src/emails/VerificationEmails.tsx).
+    We also need to declare a type/template of Api response (src/types/ApiResponse.ts) for ease in returning the response.
+    Lastly, we make a function for sending email (src/helpers/sendVerificationEmails.ts).
+
+5. Signup
+    Install bycryptjs
+    Firstly connect the DB
+    Then destructure in data from response
