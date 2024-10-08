@@ -1,11 +1,11 @@
-import mongoose, {Schema, Document, Mongoose} from "mongoose";
+import mongoose, {Schema, Document} from "mongoose";
 
-export interface Message extends Document{
+export interface Message extends Document{       // Here we define the type of message
     content: string;
     createdAt: Date
 }
 
-const MessageSchema: Schema<Message> = new Schema({
+const MessageSchema: Schema<Message> = new Schema({         // Here we define the model of message
     content: {
         type: String, 
         required: true
@@ -17,7 +17,7 @@ const MessageSchema: Schema<Message> = new Schema({
     }
 })
 
-export interface User extends Document{
+export interface User extends Document{              // Here we define the type of user
     username: string;
     email: string;
     password: string;
@@ -28,7 +28,7 @@ export interface User extends Document{
     messages: Message[]
 }
 
-const UserSchema: Schema<User> = new Schema({
+const UserSchema: Schema<User> = new Schema({         // Here we define the model of user
     username: {
         type: String, 
         required: [true, "Username is required"],
