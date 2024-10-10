@@ -26,10 +26,10 @@ export async function GET(request: Request){
 
   try {
     const user = await UserModel.aggregate([
-        {$match: {id: userId}},
-        {$unwind: '$messages'},
-        {$sort: {'messages.createdAt': -1}},
-        {$group: {_id: '$_id', messages: {$push: '$messages'}}}
+        {$match: {id: userId}},               //Find user
+        {$unwind: '$messages'},              // Extract msg in each object way
+        {$sort: {'messages.createdAt': -1}},     //Sort the msg
+        {$group: {_id: '$_id', messages: {$push: '$messages'}}}    //Group the msgs
     ])
 
     if (!user || user.length === 0) {

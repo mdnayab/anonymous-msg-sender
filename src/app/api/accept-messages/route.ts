@@ -7,7 +7,7 @@ import { User } from "next-auth";
 export async function POST(request: Request) {
   await dbConnect();
 
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions); //Check the session is login or not?
 
   const user: User = session?.user as User
 
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "Failed to update user status to accpt message",
+          message: "Failed to update user status to accept message",
         },
         { status: 401 }
       );
@@ -101,7 +101,7 @@ export async function GET(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("Failed to update user status to accpt message");
+    console.log("Failed to update user status to accept message");
     return Response.json(
       {
         success: false,

@@ -39,3 +39,54 @@
     Then take email, username and verifycode and send verification email to user. (L:66)
     If user confirm the verification then show the msg:"User registered successfully. Please berify your email" (L:85)
     Otherwise, False the success and show the msg from emailResponse.message. (L:76)
+
+6. Next Auth
+    Install next-auth
+    Import NextAuthOptions and CredentialsProvider
+    Make  a file in api/auth/[...nextauth]/options.ts and route.ts
+    Use providers for take credentials from users, like, manual user info, login through gmail or github, etc. (L:8)
+    Now, find the user through email or username
+    If the user is not found, return error with msg: "User not found". (L:33)
+        If the user is found but not verified, return error with msg: "Please verify your account before login". (L:37)
+    If the user is found now, match the password (L:40)
+        If password didn't match return error with msg:"Incorrect password". (L:48)
+    Else
+    Return the user to callbacks
+    In callbacks, we take 2 callbacks, which is "jwt" and "session" (L:57 & 66)
+        In jwt, we get token and user, we transfer all user info in token payload and return the token. (L:64)
+        In session, we get session and token, we transfer all info from token payload to session and return the session. (L:73)
+        Next we specify the route of signin page with "/sign-in". (L:77)
+        In session, we specify the Sign in through "jwt". (L:80)
+        We also need to give secret key. (L:82)
+    Now, export the all function (authOptions) to route.ts
+    Then, Store authOptions in "handler" varaible. (L:4)
+    And export it as GET and POST request. (L:6)
+
+Note: We also need to declare the type of User, session and JWT in module of next-auth. (src/types/next-auth.d.ts)
+
+7. Check username unique
+     Use usernameValidation from src/schemas/signUpSchema
+     Firstly, we extract username from request.url,
+     Then, valdiate the user using zod and check the availablility of username.
+
+8. Verify code
+    Take username and code using request.json
+    Then, find the user from db.
+    And verify the code and code expiry.
+
+9. Accept message
+    Import getServerSession and authOptions
+    Make function in both POST and GET request
+    Use "getServerSession" for check the session is login or not?
+    Then, find and update the acceptMessage status.
+
+10. Get message
+    Import getServerSession and authOptions
+    Use "getServerSession" for check the session is login or not?
+    Aggregate the user and their msgs
+
+11. Send message
+    Take username and message from request body
+    Find user through username
+    Check the user is accepting the msg or not?
+    Save the new msg in db
