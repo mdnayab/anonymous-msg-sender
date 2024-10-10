@@ -9,8 +9,7 @@ export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
 
-    const existingUserVerificationByUsername = await UserModel.findOne({
-      // Here we find the username is already exist and verified or not??
+    const existingUserVerificationByUsername = await UserModel.findOne({        // Here we find the username is already exist and verified or not??
       username,
       isVerified: true,
     });
@@ -24,12 +23,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const existingUserByEmail = await UserModel.findOne({ email }); // Here we find the email is already exist or not??
+    const existingUserByEmail = await UserModel.findOne({ email });           // Here we find the email is already exist or not??
     const verifyCode = Math.floor(10000 + Math.random() * 9000).toString();
 
-    if (existingUserByEmail) {
-      // If the email is exist then we return the error response
-      if (existingUserByEmail.isVerified) {
+    if (existingUserByEmail) {                                       // If the email is exist then we return the error response
+      if (existingUserByEmail.isVerified) {                          // If the email is exist and the user is verified
         return Response.json(
           {
             success: false,
@@ -37,7 +35,7 @@ export async function POST(request: Request) {
           },
           { status: 500 }
         );
-      } else {
+      } else {                                                   // If the email is exist and the user is not verified
         const hashedPassword = await bcrypt.hash(password, 10);
 
         existingUserByEmail.password = hashedPassword;
@@ -46,8 +44,7 @@ export async function POST(request: Request) {
 
         await existingUserByEmail.save();
       }
-    } else {
-      // If the email is not exist then we store the info in User model
+    } else {                          // If the email is not exist then we store the info in User model
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setDate(expiryDate.getHours() + 1);
@@ -63,16 +60,16 @@ export async function POST(request: Request) {
         messages: [],
       });
 
-      await newUser.save(); // Then, save the info in database
+      await newUser.save();             // Then, save the info in database
     }
 
-    const emailResponse = await sendVerificationEmail(
+    const emailResponse = await sendVerificationEmail(             //Here we send verification email to user
       email,
       username,
       verifyCode
     );
 
-    if (!emailResponse.success) {
+    if (!emailResponse.success) {                    //If the email verification is not success then return the error msg
       return Response.json(
         {
           success: false,
@@ -82,10 +79,10 @@ export async function POST(request: Request) {
       );
     }
 
-    return Response.json(
+    return Response.json(                          //If the email verification is not success then return the error msg
       {
         success: true,
-        message: "User registered successfully. Please berify your email",
+        message: "User registered successfully. Please verify your email",
       },
       { status: 201 }
     );

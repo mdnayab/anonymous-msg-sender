@@ -29,3 +29,13 @@
     Install bycryptjs
     Firstly connect the DB
     Then destructure in data from response
+    Then we check username is exist and verified or not? (L:12)
+    Then we check email is already exist or not? (L:29)
+    If exist
+        Then we check existing email is verified or not? (L:30)
+        If verified then throw msg:"User already exist with this email"(L:34)
+        Else save the info in user model.(L:45)
+    Else We store the info in User model.(L:63)
+    Then take email, username and verifycode and send verification email to user. (L:66)
+    If user confirm the verification then show the msg:"User registered successfully. Please berify your email" (L:85)
+    Otherwise, False the success and show the msg from emailResponse.message. (L:76)
