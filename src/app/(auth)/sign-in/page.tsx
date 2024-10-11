@@ -1,20 +1,57 @@
 'use client'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+import Link from "next/link"
+import axios, {AxiosError} from "axios"
+import { useEffect, useState } from "react"
+import { useDebounceValue } from 'usehooks-ts'
+import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
+import { signUpSchema } from "@/schemas/signUpSchema"
+import { ApiResponse } from "@/types/ApiResponse"
 
-export default function Component() {
-  const { data: session } = useSession()
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
-  }
+
+const page = () => {
+  const [username, setUsername] = useState('')
+  const [usernameMessage, setUsernameMessage] = useState('')
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const debouncedUsername = useDebounceValue(username, 300)
+  const { toast } = useToast()
+  const router = useRouter()
+
+  //Zod implementation
+  const form = useForm<z.infer<typeof signUpSchema>>({       //z.infer declare what type of value we get
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: ''
+    }
+  })
+
+  useEffect(() => {
+    const isCheckingUsernameUnique = async () => {
+      if (debouncedUsername) {
+        setIsCheckingUsername(true)
+        setUsernameMessage('')
+        try {
+          const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`)
+          setUsernameMessage(response.data.message)
+        } catch (error) {
+          const AxiosError = error as AxiosError<ApiResponse>
+          setUsernameMessage(AxiosError.response?.data.message ?? "Error checking username")
+        }
+      }
+    }
+  }, [debouncedUsername])
+  
+
   return (
-    <>
-      Not signed in <br />
-      <button className="bg-orange-500 px-3 py-1 m-4 rounded" onClick={() => signIn()}>Sign in</button>
-    </>
+    <div>page</div>
   )
 }
+
+export default page
