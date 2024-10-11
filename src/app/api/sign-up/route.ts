@@ -8,6 +8,7 @@ export async function POST(request: Request) {
 
   try {
     const { username, email, password } = await request.json();
+    // console.log("Received Data:", { username, email, password });
 
     const existingUserVerificationByUsername = await UserModel.findOne({        // Here we find the username is already exist and verified or not??
       username,
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
           { status: 500 }
         );
       } else {                                                   // If the email is exist and the user is not verified
-        const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verifyCode = verifyCode;
@@ -86,11 +87,11 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-  } catch (error) {
-    console.error("Error registering user", error);
+  } catch (error: any) {
+    console.error("Error registering user", error.message, "nayab", error.stack);
     return Response.json(
       {
-        success: true,
+        success: false,
         message: "Error registering user",
       },
       {
