@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
         await existingUserByEmail.save();
       }
-    } else {                          // If the email is not exist then we store the info in User model
+    } else {                           // If the email is not exist then we store the info in User model
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
