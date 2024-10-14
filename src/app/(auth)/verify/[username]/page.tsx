@@ -35,7 +35,7 @@ export default function VerifyAccount () {
             title: "Success",
             description: response.data.message
         })
-        router.replace('sign-in')
+        router.replace('/sign-in')
     } catch (error) {
         console.error("Error in verification of user's email", error);
       const AxiosError = error as AxiosError<ApiResponse>;

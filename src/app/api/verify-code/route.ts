@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export async function POST(request: Request) {
-  await dbConnect();
+  await dbConnect();  //
 
   try {
     const { username, code } = await request.json();
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
           success: true,
           message: "Account verified successfully",
         },
-        { status: 500 }
+        { status: 200 }
       );
     } else if(!isCodeNotExpired) {
         return Response.json(

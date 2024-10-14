@@ -41,7 +41,7 @@ const page = () => {
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.Identifier,
-      password: data.Identifier
+      password: data.password
     })
 
     if (result?.error) {
