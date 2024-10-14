@@ -1,12 +1,16 @@
-import * as React from "react"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
-
+// Extend InputHTMLAttributes for type safety
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  // You can also specify default props here if needed, for example:
+  type?: string; // optional if you want to have a default
+}
 
+// Forward ref to the input component for better accessibility
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type = "text", ...props }, ref) => { // Default type to "text"
     return (
       <input
         type={type}
@@ -15,11 +19,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
-        {...props}
+        {...props} // Spread all other props to the input
       />
-    )
+    );
   }
-)
-Input.displayName = "Input"
+);
 
-export { Input }
+Input.displayName = "Input"; // Helpful for debugging
+
+export { Input }; // Export the Input component
