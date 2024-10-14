@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
-const page = () => {
+const Page = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -82,7 +82,7 @@ const page = () => {
     } catch (error) {
       console.error("Error in signup of user", error);
       const AxiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = AxiosError.response?.data.message;
+      const errorMessage = AxiosError.response?.data.message;
       toast({
         title: "Signup failed",
         description: errorMessage,
@@ -180,4 +180,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

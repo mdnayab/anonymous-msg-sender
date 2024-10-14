@@ -1,5 +1,4 @@
 "use client";
-import dbConnect from "@/lib/dbConnect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,7 +20,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 
-const page = () => {
+const Page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { toast } = useToast();
@@ -38,30 +37,30 @@ const page = () => {
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsSubmitting(true);
 
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       redirect: false,
       identifier: data.Identifier,
-      password: data.password
-    })
+      password: data.password,
+    });
 
     if (result?.error) {
-      if (result.error == 'CredentialsSignin') {
+      if (result.error == "CredentialsSignin") {
         toast({
           title: "Login failed",
           description: "Incorrect username or password",
-          variant: "destructive"
-        })
+          variant: "destructive",
+        });
       } else {
         toast({
           title: "Error",
           description: result.error,
-          variant: "destructive"
-        })
+          variant: "destructive",
+        });
       }
     }
 
     if (result?.url) {
-      router.replace('/dashboard')
+      router.replace("/dashboard");
     }
     setIsSubmitting(false);
   };
@@ -84,8 +83,10 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Email or Username</FormLabel>
                   <FormControl>
-                    <Input {...field}
-                    placeholder="Enter your email or username" />
+                    <Input
+                      {...field}
+                      placeholder="Enter your email or username"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,7 +118,7 @@ const page = () => {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Don't have account?{" "}
+            {`Don't have account?`}{" "}
             <Link
               href={"/sign-up"}
               className="text-blue-600 hover:text-blue-800"
@@ -131,4 +132,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

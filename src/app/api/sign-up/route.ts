@@ -26,6 +26,8 @@ export async function POST(request: Request) {
 
     const existingUserByEmail = await UserModel.findOne({ email });           // Here we find the email is already exist or not??
     const verifyCode = Math.floor(10000 + Math.random() * 9000).toString();
+    // console.log(verifyCode);
+    
 
     if (existingUserByEmail) {                                       // If the email is exist then we return the error response
       if (existingUserByEmail.isVerified) {                          // If the email is exist and the user is verified
@@ -69,6 +71,12 @@ export async function POST(request: Request) {
       username,
       verifyCode
     );
+    console.log(email);
+    console.log(username);
+    console.log(verifyCode);
+    
+    
+    
 
     if (!emailResponse.success) {                    //If the email verification is not success then return the error msg
       return Response.json(
@@ -88,7 +96,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error: any) {
-    console.error("Error registering user", error.message, "nayab", error.stack);
+    console.error("Error registering user", error);
     return Response.json(
       {
         success: false,
