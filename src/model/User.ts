@@ -17,6 +17,15 @@ const MessageSchema: Schema<Message> = new Schema({         // Here we define th
     }
 })
 
+export interface UserDocument extends Document {
+    _id: string;
+    email: string;
+    username: string;
+    password: string;
+    isVerified: boolean;
+    isAcceptingMessage: boolean;
+  }
+
 export interface User extends Document{              // Here we define the type of user
     username: string;
     email: string;
