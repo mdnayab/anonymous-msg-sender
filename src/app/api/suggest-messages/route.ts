@@ -1,7 +1,7 @@
 import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 
-export async function POST(req: Request) {
+export async function POST() {
   try {
     const { text } = await generateText({
       model: google("gemini-1.5-pro-latest"),

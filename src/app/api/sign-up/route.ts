@@ -95,8 +95,23 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error registering user", error);
+  
+    // Type narrowing to ensure `error` is an instance of Error
+    if (error instanceof Error) {
+      return Response.json(
+        {
+          success: false,
+          message: error.message || "Error registering user",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+  
+    // In case the error is not an instance of Error
     return Response.json(
       {
         success: false,
